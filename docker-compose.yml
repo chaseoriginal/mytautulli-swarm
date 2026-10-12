@@ -1,0 +1,37 @@
+x-base: &base
+  restart: unless-stopped
+  networks:
+    - mytautulli-swarm_default
+
+services:
+  tautulli:
+    <<: *base
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: ${CNAME}
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - tautulli.config:/config
+    ports:
+      - target: 8181
+        published: 83
+        protocol: tcp
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.deployment.target.mytautulli == true
+      restart_policy:
+        condition: any
+
+volumes:
+  tautulli.config:
+    name: mytautulli-swarm.config
+
+networks:
+  mytautulli-swarm_default:
+    external: true
+    name: mytautulli-swarm_default

@@ -12,7 +12,7 @@ services:
     environment:
       - TZ=${TZ}
     volumes:
-      - /var/lib/docker/volumes/mytautulli-swarm/config:/config
+      - mytautulli-swarm_config:/config
     ports:
       - target: 8181
         published: 83

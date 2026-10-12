@@ -12,7 +12,7 @@ services:
     environment:
       - TZ=${TZ}
     volumes:
-      - tautulli.config:/config
+      - /var/lib/docker/volumes/mytautulli-swarm/config:/config
     ports:
       - target: 8181
         published: 83
@@ -26,10 +26,6 @@ services:
           - node.labels.deployment.target.mytautulli == true
       restart_policy:
         condition: any
-
-volumes:
-  tautulli.config:
-    name: mytautulli-swarm.config
 
 networks:
   mytautulli-swarm_default:
